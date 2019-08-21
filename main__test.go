@@ -20,7 +20,14 @@ func TestCellDecrement(t *testing.T) {
 	}
 }
 
-func TestCellsRight(t *testing.T) {
+func TestMemoryCustomSize(t *testing.T) {
+	m := NewMemory(100)
+	if len(m.Cells) != 100 {
+		t.Errorf("Memory should accept a custom size for cells")
+	}
+}
+
+func TestMemoryRight(t *testing.T) {
 	m := NewMemory()
 	previousCell := m.GetCurrentCell()
 	m.Right()
@@ -29,7 +36,7 @@ func TestCellsRight(t *testing.T) {
 	}
 }
 
-func TestCellsLeft(t *testing.T) {
+func TestMemoryLeft(t *testing.T) {
 	m := NewMemory()
 	// Setup
 	m.Right()
