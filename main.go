@@ -47,16 +47,16 @@ func (m *Memory) GetCurrentCell() *Cell {
 	return &m.Cells[m.CurrentCell]
 }
 
-// Right moves the pointer of the current cell to the right
+// Right moves the pointer of the current cell to the right, and returns the value of the current cell
 func (m *Memory) Right() int {
 	m.CurrentCell++
-	return m.Cells[m.CurrentCell].Value
+	return m.GetCurrentCell().Value
 }
 
-// Left moves the pointer of the current cell to the left
+// Left moves the pointer of the current cell to the left, and returns the value of the current cell
 func (m *Memory) Left() int {
 	m.CurrentCell--
-	return m.Cells[m.CurrentCell].Value
+	return m.GetCurrentCell().Value
 }
 
 func main() {
