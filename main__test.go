@@ -27,6 +27,13 @@ func TestMemoryCustomSize(t *testing.T) {
 	}
 }
 
+func TestMemoryCurrentCellIsMiddle(t *testing.T) {
+	m := NewMemory(100)
+	if m.CurrentCell != len(m.Cells)/2 {
+		t.Errorf("CurrentCell should default to the middlest cell")
+	}
+}
+
 func TestMemoryRight(t *testing.T) {
 	m := NewMemory()
 	previousCell := m.GetCurrentCell()
@@ -38,8 +45,6 @@ func TestMemoryRight(t *testing.T) {
 
 func TestMemoryLeft(t *testing.T) {
 	m := NewMemory()
-	// Setup
-	m.Right()
 
 	previousCell := m.GetCurrentCell()
 	m.Left()

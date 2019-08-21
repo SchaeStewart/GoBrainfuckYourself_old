@@ -34,9 +34,12 @@ func NewMemory(s ...int) *Memory {
 	if len(s) > 0 {
 		size = s[0]
 	}
-	return &Memory{
-		Cells: make([]Cell, size),
+	c := make([]Cell, size)
+	m := Memory{
+		Cells:       c,
+		CurrentCell: len(c) / 2, // Defaults to middle so there is left space
 	}
+	return &m
 }
 
 // GetCurrentCell returns a pointer to the current cell
