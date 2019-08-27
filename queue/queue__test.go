@@ -57,7 +57,11 @@ func TestCalcuateDepth(t *testing.T) {
 // test that added commands have a proper depth assinged
 
 func TestCalcuateDepthError(t *testing.T) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
 	cq := NewCommandQueue()
 	cq.AddCommand(common.LoopEnd)
-	// Should panic/throw error
 }

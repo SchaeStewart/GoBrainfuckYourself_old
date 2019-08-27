@@ -1,6 +1,10 @@
 package queue
 
-import "../common"
+import (
+	"errors"
+
+	"../common"
+)
 
 type queueItems struct {
 	command common.Commands
@@ -27,19 +31,24 @@ func NewCommandQueue(s ...int) *CommandQueue {
 	return &cq
 }
 
-func (cq *CommandQueue) calculateDepth(command common.Commands) {
+func (cq *CommandQueue) calculateDepth(command common.Commands) error {
 	if cq.currentDepth == 0 && command == common.LoopEnd {
-		// TODO: throw error
+		return errors.New("Invalid syntax. Cannot end loop ")
 	} else if command == common.LoopEnd {
 		cq.currentDepth--
 	} else if command == common.LoopStart {
 		cq.currentDepth++
 	}
+	return nil
 }
 
 // AddCommand adds a command to the queue
 func (cq *CommandQueue) AddCommand(command common.Commands) {
-	cq.calculateDepth(command)
+	err := cq.calculateDepth(command)
+	if err != nil {
+		panic(err)
+	}
+
 	qi := queueItems{command: command, depth: cq.currentDepth}
 	if cq.currentIdx < len(cq.commands) {
 		cq.commands[cq.currentIdx] = qi
