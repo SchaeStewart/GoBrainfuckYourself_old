@@ -43,7 +43,7 @@ func TestAddCommandResizeSlice(t *testing.T) {
 	}
 }
 
-func TestCalcuateDepth(t *testing.T) {
+func TestCalcuateDepth_LoopStart(t *testing.T) {
 	cq := NewCommandQueue()
 	depthBefore := cq.currentDepth
 	cq.AddCommand(common.LoopStart)
@@ -54,6 +54,22 @@ func TestCalcuateDepth(t *testing.T) {
 	}
 }
 
+func TestCalcuateDepth_LoopEnd(t *testing.T) {
+	// Setup
+	cq := NewCommandQueue()
+	cq.AddCommand(common.LoopStart)
+
+	// Test
+	depthBefore := cq.currentDepth
+	cq.AddCommand(common.LoopEnd)
+	depthAfter := cq.currentDepth
+
+	if depthBefore != 1 || depthAfter != 0 {
+		t.Errorf("Expected depth to be %d, instead got %d", 1, depthAfter)
+	}
+
+}
+
 // test that added commands have a proper depth assinged
 
 func TestCalcuateDepthError(t *testing.T) {
@@ -62,6 +78,7 @@ func TestCalcuateDepthError(t *testing.T) {
 			t.Errorf("The code did not panic")
 		}
 	}()
+
 	cq := NewCommandQueue()
 	cq.AddCommand(common.LoopEnd)
 }
