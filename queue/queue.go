@@ -6,14 +6,15 @@ import (
 	"../common"
 )
 
-type queueItems struct {
-	command common.Commands
-	depth   int
+// Item is an item in the command queue
+type Item struct {
+	Command common.Commands
+	Depth   int
 }
 
 // CommandQueue loads commands into a queue
 type CommandQueue struct {
-	commands     []queueItems
+	Commands     []Item
 	currentIdx   int
 	currentDepth int
 }
@@ -24,9 +25,9 @@ func NewCommandQueue(s ...int) *CommandQueue {
 	if len(s) > 0 {
 		size = s[0]
 	}
-	c := make([]queueItems, size)
+	c := make([]Item, size)
 	cq := CommandQueue{
-		commands: c,
+		Commands: c,
 	}
 	return &cq
 }
@@ -49,11 +50,22 @@ func (cq *CommandQueue) AddCommand(command common.Commands) {
 		panic(err)
 	}
 
-	qi := queueItems{command: command, depth: cq.currentDepth}
-	if cq.currentIdx < len(cq.commands) {
-		cq.commands[cq.currentIdx] = qi
+	qi := Item{Command: command, Depth: cq.currentDepth}
+	if cq.currentIdx < len(cq.Commands) {
+		cq.Commands[cq.currentIdx] = qi
 	} else {
-		cq.commands = append(cq.commands, qi)
+		cq.Commands = append(cq.Commands, qi)
 	}
 	cq.currentIdx++
+}
+
+// LoadQueue reads a file and returns an array of brainfuck commands
+func (cq *CommandQueue) LoadQueue(content []byte) {
+	// Create commandList, loop through content, if item == soemthing golang, add it to commandlist
+	for _, b := range content {
+		s := string(b)
+		if val, ok := common.CommandMap[s]; ok {
+			cq.AddCommand(val)
+		}
+	}
 }
