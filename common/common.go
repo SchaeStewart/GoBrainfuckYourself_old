@@ -21,3 +21,15 @@ const (
 	// LoopEnd denotes the end of a loop
 	LoopEnd
 )
+
+// CommandMap is a string to command map
+var CommandMap = map[string]Commands{
+	"<": Left,
+	">": Right,
+	"+": Inc,
+	"-": Dec,
+	".": Put,
+	",": Get,
+	"[": LoopStart,
+	"]": LoopEnd,
+}
