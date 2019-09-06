@@ -56,3 +56,13 @@ func (m *Memory) Left() int {
 	m.CurrentCell--
 	return m.GetCurrentCell().Value
 }
+
+// Inc increments the current cell
+func (m *Memory) Inc() {
+	m.GetCurrentCell().Increment()
+}
+
+// Dec decrements the current cell
+func (m *Memory) Dec() {
+	m.GetCurrentCell().Decrement()
+}

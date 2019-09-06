@@ -52,3 +52,21 @@ func TestMemoryLeft(t *testing.T) {
 		t.Errorf("Current cell did not change")
 	}
 }
+
+func TestMemoryInc(t *testing.T) {
+	m := NewMemory()
+
+	m.Inc()
+	if m.GetCurrentCell().Value != 1 {
+		t.Errorf("Expected current cell to be 1 instead got %d", m.GetCurrentCell().Value)
+	}
+}
+
+func TestMemoryDec(t *testing.T) {
+	m := NewMemory()
+
+	m.Dec()
+	if m.GetCurrentCell().Value != -1 {
+		t.Errorf("Expected current cell to be -1 instead got %d", m.GetCurrentCell().Value)
+	}
+}
