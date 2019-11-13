@@ -46,15 +46,15 @@ func (m *Memory) GetCurrentCell() *Cell {
 }
 
 // Right moves the pointer of the current cell to the right, and returns the value of the current cell
-func (m *Memory) Right() int {
+func (m *Memory) Right() {
 	m.CurrentCell++
-	return m.GetCurrentCell().Value
+	// return m.GetCurrentCell().Value
 }
 
 // Left moves the pointer of the current cell to the left, and returns the value of the current cell
-func (m *Memory) Left() int {
+func (m *Memory) Left() {
 	m.CurrentCell--
-	return m.GetCurrentCell().Value
+	// return m.GetCurrentCell().Value
 }
 
 // Inc increments the current cell
