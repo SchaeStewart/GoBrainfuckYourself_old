@@ -1,6 +1,7 @@
 package queue
 
 import (
+	"fmt"
 	"testing"
 
 	"../common"
@@ -12,6 +13,8 @@ func TestNewCommandQueue(t *testing.T) {
 	if cq == nil || len(cq.Commands) != 1500 {
 		t.Error("CommandQueue should default to a size of 1500")
 	}
+	fmt.Println(cq.Commands[0])
+	fmt.Println(common.Left)
 }
 func TestNewCommandQueueSize(t *testing.T) {
 	// Should create a CommandQueue and have len of the customSize
@@ -27,7 +30,7 @@ func TestAddCommand(t *testing.T) {
 	cq := NewCommandQueue()
 	cq.AddCommand(common.Right)
 
-	if cq.Commands[0].Command != common.Right {
+	if cq.Commands[0] != common.Right {
 		t.Error("Could not add comamnd to queue")
 	}
 }
@@ -38,49 +41,9 @@ func TestAddCommandResizeSlice(t *testing.T) {
 	cq.AddCommand(common.Right)
 	cq.AddCommand(common.Left)
 
-	if cq.Commands[1].Command != common.Left && len(cq.Commands) != 2 {
+	if cq.Commands[1] != common.Left && len(cq.Commands) != 2 {
 		t.Error("Commands slice did not automatically resize")
 	}
-}
-
-func TestCalcuateDepth_LoopStart(t *testing.T) {
-	cq := NewCommandQueue()
-	depthBefore := cq.currentDepth
-	cq.AddCommand(common.LoopStart)
-	depthAfter := cq.currentDepth
-
-	if depthBefore != 0 || depthAfter != 1 {
-		t.Errorf("Expected depth to be %d, instead got %d", 1, depthAfter)
-	}
-}
-
-func TestCalcuateDepth_LoopEnd(t *testing.T) {
-	// Setup
-	cq := NewCommandQueue()
-	cq.AddCommand(common.LoopStart)
-
-	// Test
-	depthBefore := cq.currentDepth
-	cq.AddCommand(common.LoopEnd)
-	depthAfter := cq.currentDepth
-
-	if depthBefore != 1 || depthAfter != 0 {
-		t.Errorf("Expected depth to be %d, instead got %d", 1, depthAfter)
-	}
-
-}
-
-// test that added commands have a proper depth assinged
-
-func TestCalcuateDepthError(t *testing.T) {
-	defer func() {
-		if r := recover(); r == nil {
-			t.Errorf("The code did not panic")
-		}
-	}()
-
-	cq := NewCommandQueue()
-	cq.AddCommand(common.LoopEnd)
 }
 
 func TestLoadQueue(t *testing.T) {
@@ -88,7 +51,7 @@ func TestLoadQueue(t *testing.T) {
 
 	cq := NewCommandQueue()
 	cq.LoadQueue(helloworldBF)
-	if cq.Commands[0].Command != common.Inc {
-		t.Errorf("Error expected first item in Commands to be Inc, instead got %d", cq.Commands[0].Command)
+	if cq.Commands[0] != common.Inc {
+		t.Errorf("Error expected first item in Commands to be Inc, instead got %d", cq.Commands[0])
 	}
 }
